@@ -2,6 +2,12 @@
 
 Proof-of-concept pipeline for LD_PRELOAD-based libc function hooking, XOR packing, fileless loading, and YARA-based detection. Built with Zig targeting Linux x86_64.
 
+## Pipeline Overview
+
+![Pipeline](mermaid-diagram-2026-04-20-185447.png)
+
+![State](mermaid-diagram-2026-04-20-210429.png)
+
 ## Components
 
 | File | Role |
@@ -98,7 +104,3 @@ yara -r detect_preload_hook.yar preload.so
 yara -r detect_fileless_loader.yar stub
 yara -r detect_vm_aware.yar stub
 ```
-
-## Pipeline Overview
-
-![Pipeline](mermaid-diagram-2026-04-20-185447.png)
