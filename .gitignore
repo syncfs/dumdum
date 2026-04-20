@@ -1,0 +1,10 @@
+preload.so
+preload.so.packed
+decoy.so
+decoy.so.packed
+libdecoy.so
+cpuinfo_mock.so
+packer
+stub
+*.o
+*.a
