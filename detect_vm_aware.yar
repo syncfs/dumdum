@@ -1,6 +1,6 @@
 rule vm_aware_branching {
     meta:
-        description = "ELF yang membaca /proc/cpuinfo dan mencari string hypervisor — indikator VM detection"
+        description = "ELF reading /proc/cpuinfo and checking for hypervisor string as a VM detection indicator"
     strings:
         $cpuinfo    = "/proc/cpuinfo" ascii
         $hypervisor = "hypervisor" ascii
@@ -16,10 +16,10 @@ rule vm_aware_branching {
 
 rule dual_payload_loader {
     meta:
-        description = "ELF dengan dua packed payload path — indikator conditional loading berdasarkan environment"
+        description = "ELF with two packed payload paths indicating environment-conditional loading"
     strings:
         $packed1 = ".so.packed" ascii
-        $memfd   = { B8 3F 01 00 00 }  // SYS_memfd_create
+        $memfd   = { B8 3F 01 00 00 }
     condition:
         uint32(0) == 0x464C457F and
         #packed1 >= 2 and

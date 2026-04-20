@@ -1,11 +1,10 @@
 rule ldpreload_rtld_next
 {
     meta:
-        description = "ELF shared library menggunakan RTLD_NEXT — indikator dlsym-based function hooking"
+        description = "ELF shared library using RTLD_NEXT as indicator of dlsym-based function hooking"
         severity    = "medium"
 
     strings:
-        // ELF64 LE header + e_type=ET_DYN (0x0003) di offset 16
         $elf64_dyn = { 7F 45 4C 46 02 01 01 00 00 00 00 00 00 00 00 00 03 00 }
         $rtld_next = "RTLD_NEXT"
         $dlsym     = "dlsym"
@@ -19,7 +18,7 @@ rule ldpreload_rtld_next
 rule ldpreload_syscall_trio
 {
     meta:
-        description = "ELF shared library mengekspor puts + fopen + read sekaligus — pola hooking libc I/O functions"
+        description = "ELF shared library exporting the full libc I/O symbol set as a hooking pattern"
         severity    = "high"
 
     strings:
@@ -36,7 +35,7 @@ rule ldpreload_syscall_trio
 rule ldpreload_hook_log_pattern
 {
     meta:
-        description = "Shared library mengandung string log [HOOKED] — artefak debug/trace dari preload hook"
+        description = "Shared library containing [HOOKED] log strings as debug artifact from a preload hook"
         severity    = "high"
 
     strings:

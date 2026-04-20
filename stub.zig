@@ -5,6 +5,7 @@ const c = @cImport({
     @cInclude("stdio.h");
     @cInclude("unistd.h");
 });
+const xor = @import("xor.zig");
 
 const max_file_size = 10 * 1024 * 1024;
 const SYS_memfd_create = std.os.linux.SYS.memfd_create;
@@ -45,7 +46,7 @@ fn decrypt_and_load(allocator: std.mem.Allocator, path: []const u8, key: u8) !?*
     const data = try file.readToEndAlloc(allocator, max_file_size);
     defer allocator.free(data);
 
-    for (data, 0..) |*byte, i| byte.* ^= @truncate(key +% i);
+    xor.crypt(data, key);
 
     return load_so_from_memory(data);
 }

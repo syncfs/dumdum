@@ -1,4 +1,5 @@
 const std = @import("std");
+const xor = @import("xor.zig");
 
 const max_file_size = 10 * 1024 * 1024;
 
@@ -18,15 +19,15 @@ pub fn main() !void {
     const input_file = try std.fs.cwd().openFile(args[1], .{});
     defer input_file.close();
 
-    const input_data = try input_file.readToEndAlloc(allocator, max_file_size);
-    defer allocator.free(input_data);
+    const data = try input_file.readToEndAlloc(allocator, max_file_size);
+    defer allocator.free(data);
 
-    for (input_data, 0..) |*byte, i| byte.* ^= @truncate(key +% i);
+    xor.crypt(data, key);
 
     const output_file = try std.fs.cwd().createFile(args[2], .{});
     defer output_file.close();
 
-    try output_file.writeAll(input_data);
+    try output_file.writeAll(data);
 
-    std.debug.print("Packed {} bytes with key 0x{x:0>2}\n", .{ input_data.len, key });
+    std.debug.print("Packed {} bytes with key 0x{x:0>2}\n", .{ data.len, key });
 }
